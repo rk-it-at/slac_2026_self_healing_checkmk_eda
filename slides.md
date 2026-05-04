@@ -41,10 +41,15 @@ footer: Secure Linux Administration Conference 05/2026
 # Agenda
 
 - Monitoring: Short introduction
+- Ansible: Short introduction
 - What is Event-Driven Ansible (EDA)?
 - Event-Driven Workflow
 - Live Demonstration
 - Use cases and best practices
+
+---
+
+# Monitoring: Short introduction
 
 ---
 
@@ -61,6 +66,68 @@ footer: Secure Linux Administration Conference 05/2026
 
 ---
 
+# Monitoring: Typical issues
+
+- 💥 DNS server crashes in the middle of the night
+- 🐢 Even with redundant DNS servers, systems respond more slowly due to DNS timeouts
+- 🔁 Typical workflow:
+  - 🔎 Monitoring detects the issue
+  - 📟 The on-call engineer is informed
+  - 🔐 Log in to the system and restart the service
+- 🤔 **Why wake up the on-call engineer instead of fixing it automatically?**
+
+---
+
+<!-- _class: right-bg-checkmk -->
+# What Is Checkmk?
+
+- **Infrastructure and application
+  monitoring platform**
+- Combines data collection, health
+  checks, and alerting in one system
+- Supports both on-premises and
+  cloud environments
+
+---
+
+# Checkmk Core Capabilities
+
+- 🧭 **Unified monitoring** for hosts, services, apps, containers and network devices
+- 🔌 **Broad data collection** via agent checks, SNMP, APIs and special integrations
+- 🚨 **Alerting and event handling** with rules, notifications and escalation paths
+- 📊 **Visualization and analytics** through dashboards, BI views and service-level perspectives
+
+---
+
+# Why Teams Use Checkmk
+
+- ⚙️ **Rule-based configuration** to standardize checks across many systems
+- 🌍 **Distributed monitoring** for remote sites and large environments
+- 🔁 **Faster operations** by reducing MTTR and repetitive manual tasks
+- 🧰 **Automation readiness** with APIs and integrations for incident response workflows
+
+---
+
+# Checkmk Models
+
+- ☁️ **Checkmk SaaS (Cloud)**: hosted by Checkmk; fastest onboarding, less platform maintenance
+- 🏢 **Checkmk Self-Hosted**: self-managed installation; full control over data, upgrades and infrastructure
+
+---
+
+# Checkmk Editions
+
+- 🆓 **Checkmk Community** (formerly Raw): open source edition for smaller environments
+- 💼 **Checkmk Pro** (formerly Enterprise): commercial edition with higher performance and advanced features
+- 🏭 **Checkmk Ultimate** (formerly Cloud self-hosted): for hybrid and cloud-native infrastructure
+- 🏢 **Checkmk Ultimate with Multi-Tenancy** (formerly MSP): optional add-on for strict tenant separation
+
+---
+
+# Ansible: Short introduction
+
+---
+
 <!-- _class: footnote-only -->
 <!-- _backgroundImage: "url('assets/automation.png')" -->
 <!-- _backgroundSize: contain -->
@@ -73,27 +140,116 @@ footer: Secure Linux Administration Conference 05/2026
 
 ---
 
-<!-- _class: right-bg-checkmk -->
-# What is Checkmk?
+# What Is Ansible?
 
-- **Monitoring platform** for infra-
-  structure, applications and services
-- Provides **agent- and agentless**
-  checks, dashboards, and alerting
-- Built for **scale** with distributed
-  monitoring and automation support
-- Helps **detect, analyze, and**
-  **remediate** issues faster
+- ⚙️ Automates provisioning, application deployment and configuration management
+- 🧩 No agent is required on the target machine
+- 🔌 Uses SSH, WinRM and APIs
+- 🚀 Executes tasks in parallel on multiple machines
+- 📘 Uses an easy-to-read automation language (YAML)
+
+---
+
+<!-- _class: footnote-only -->
+<!-- _backgroundImage: "url('assets/what_is_ansible.png')" -->
+<!-- _backgroundSize: contain -->
+<!-- _backgroundPosition: center -->
+
+<div class="corner-logos"></div>
+<div class="footnote">
+  Source: https://github.com/ansible/workshops/blob/devel/decks/ansible_rhel.pdf
+</div>
+
+---
+
+<!-- _class: footnote-only -->
+<!-- _backgroundImage: "url('assets/ansible_editions.png')" -->
+<!-- _backgroundSize: contain -->
+<!-- _backgroundPosition: center -->
+
+<div class="corner-logos"></div>
+<div class="footnote">
+  Source: https://www.redhat.com/en/technologies/management/ansible/compare-awx-vs-ansible-automation-platform?hsLang=en-us
+</div>
+
+---
+
+# Ansible Automation Platform
+
+- 🖥️ **Web UI and API** for operating automation from a central interface
+- 🧭 **Central control plane** for automation instead of running playbooks from many hosts
+- 🔐 **RBAC and credential management** with controlled access to inventories, projects and secrets
+- ✅ **Standardized execution** via Execution Environments (same dependencies across teams and stages)
+- 🔌 **Integrations** with enterprise tools (for example Splunk, Elastic, ServiceNow)
+- 📦 **Automation Hub** for private content and container images
+
+---
+
+# Ansible Automation Platform
+
+- ⚡ **Event-Driven Ansible** included for event-based automation decisions
+- 📅 **Operational features**: scheduling, approvals, workflows, notifications and retries
+- 📜 **Auditability and governance**: job history, logs and traceable change execution
+- 📈 **Scalability**: queueing and distributed execution for larger environments
+- 🛠️ **Deployment options**: install on-premises or consume as a managed cloud offering
+- 🤝 **Red Hat support** for enterprise operations and troubleshooting
+
+---
+
+# Solve DNS issue with Ansible
+
+- Create a playbook
+- Run playbook via
+  - Command line
+  - Ansible Automation Platform
+
+```bash
+$ ansible-playbook restart_named.yml
+```
+
+---
+
+<!-- _class: footnote-only -->
+<!-- _backgroundImage: "url('assets/aap_job_run.png')" -->
+<!-- _backgroundSize: contain -->
+<!-- _backgroundPosition: center -->
+
+<div class="corner-logos"></div>
+
+---
+
+# Solve DNS issue with Ansible
+
+```yaml
+---
+
+- name: Restart named on IPA
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Restart named
+      ansible.builtin.service:
+        name: named
+        state: restarted
+
+...
+```
+
+---
+
+# What Is Event-Driven Ansible (EDA)?
 
 ---
 
 <!-- _class: right-bg-eda -->
-# What is Event-Driven Ansible?
+# What Is Event-Driven Ansible?
 
 - **EDA is automation that reacts to events**, not
   schedules
 - Events can come from monitoring, webhooks,
-  message queues, logs or cloud services
+  message queues, logs, or cloud services
 - Rules decide **when** to run Ansible actions
 - Goal: **faster response** and **consistent**
   **remediation**
@@ -122,12 +278,14 @@ footer: Secure Linux Administration Conference 05/2026
 - 📜 **Ansible Playbooks** do not listen for events out of the box
 - 🔔 Without EDA, the monitoring source must trigger playbook runs directly
 - 🧱 This increases load and complexity on the monitoring system
+- 🗂️ This often requires many notification rules in the monitoring system
+- 🛑 It can be hard to quickly disable notification rules (for example, across multiple teams)
 
 ---
 
 # Event-Driven Ansible vs. AAP Controller
 
-- ⚡ **EDA** keeps an event listener active and can trigger job templates immediately
+- ⚡ **EDA** keeps a listener running and reacts to events in near real time
 - 🌐 **AAP Controller** can start jobs via webhook or API, but each job is a full run lifecycle
 - 🐢 Job startup overhead (container start, project sync, inventory/collections) adds latency
 - 🚦 Job execution may queue behind other jobs, which delays reaction time
@@ -138,10 +296,56 @@ footer: Secure Linux Administration Conference 05/2026
 # Core Building Blocks
 
 - 📡 **Event Sources**: where events originate (ansible.eda plugins for webhooks, Kafka, Alertmanager, etc.)
-- 📘 **Rulebook**: Rulesets with conditions + actions
+- 📘 **Rulebook**: Rule sets with conditions + actions
 - 🔎 **Conditions**: Determine if a rule fires
 - 🛠️ **Actions**: run playbooks, run job templates, run modules, etc.
 - 🧭 **Controller** (optional): central execution and governance
+
+---
+
+# ansible.eda: Supported Event Sources
+
+- 📥 `alertmanager`: receive alerts via Alertmanager webhooks
+- ☁️ `aws_cloudtrail`: ingest AWS CloudTrail events
+- 📬 `aws_sqs_queue`: consume messages from an AWS SQS queue
+- ☁️ `azure_service_bus`: receive events from Azure Service Bus
+- 📂 `file`: load events from files
+- 👀 `file_watch`: watch files and emit events on changes
+- 🧪 `generic`: generate test events from static payload data
+
+---
+
+# ansible.eda: Supported Event Sources
+
+- 📝 `journald`: read events from systemd journal logs
+- 📨 `kafka`: consume events from Kafka topics
+- 🐘 `pg_listener`: listen for PostgreSQL `NOTIFY` events
+- 🔢 `range`: generate a finite sequence of test events
+- ⏱️ `tick`: generate periodic timer events
+- 🌐 `url_check`: poll URLs and emit status change events
+- 🪝 `webhook`: receive events via HTTP webhook
+- ℹ️ As of `ansible.eda` collection version `2.11.0`
+
+---
+
+# Common EDA Actions
+
+- ▶️ `run_playbook`: run an Ansible playbook directly
+- 🧱 `run_module`: execute a specific Ansible module
+- 🚀 `run_job_template`: start an AAP Controller job template
+- 🛤️ `run_workflow_template`: start an AAP workflow template
+- 📣 `post_event`: emit a new event for follow-up processing
+
+---
+
+# Common EDA Actions
+
+- 🧹 `retract_fact`: remove facts previously added to event context
+- 🔔 `print_event`: write the event payload to output/logs (useful for debugging)
+- 🧩 `set_fact`: add or modify event data for later conditions/actions
+- ⏹️ `shutdown`: stop rulebook execution
+- 🐞 `debug`: print debugging information for rule/action evaluation
+- ⛔ `none`: intentionally do nothing (for matched-but-ignored cases)
 
 ---
 
@@ -255,7 +459,7 @@ PLAY RECAP *********************************************************************
 ipa01.example.com : ok=2 changed=1 unreachable=0 failed=0 skipped=0 rescued=0 ignored=0 
 ```
 
-❗Use the **run_playbook** action (instead of **run_job_template**) when running with ansible-playbook outside Ansible Automation Platform.
+❗Use the **run_playbook** action (instead of **run_job_template**) when running with `ansible-playbook` outside Ansible Automation Platform.
 
 ---
 
@@ -279,6 +483,10 @@ ipa01.example.com : ok=2 changed=1 unreachable=0 failed=0 skipped=0 rescued=0 ig
 ---
 
 # Live Demo: Fix DNS issue
+
+---
+
+# Use cases and best practices
 
 ---
 
@@ -313,6 +521,17 @@ ipa01.example.com : ok=2 changed=1 unreachable=0 failed=0 skipped=0 rescued=0 ig
 
 ---
 
+# Other Event Sources for EDA
+
+- 📈 **Zabbix**: trigger EDA from problem/recovery events
+- 🛡️ **Wazuh**: trigger EDA from security detections and compliance alerts
+- 📊 **Prometheus + Alertmanager**: trigger EDA from metric-based alert rules
+- 🔍 **Elastic (Elasticsearch/Kibana)**: trigger EDA from log and SIEM detections
+- 🌐 **Switch SNMP traps**: trigger EDA to update NetBox documentation automatically
+- ☁️ **Cloud-native services**: trigger EDA from event buses and webhook integrations
+
+---
+
 # Additional Information
 
 - **Products**:
@@ -331,7 +550,7 @@ ipa01.example.com : ok=2 changed=1 unreachable=0 failed=0 skipped=0 rescued=0 ig
 - 🛰️ Checkmk **monitors** your IT landscape and **notifies** on state change
 - ⚡ EDA turns these events into **real-time automation**
 - 🤝 It complements traditional Ansible by **reacting** instead of **scheduling**
-- 🎯 Start small, measure impact, and iterate
+- 🎯 Start small, measure impact and iterate
 
 ---
 
@@ -340,6 +559,6 @@ ipa01.example.com : ok=2 changed=1 unreachable=0 failed=0 skipped=0 rescued=0 ig
 
 René Koch
 Freelancer
-Ansible Anwendertreffen Austria 18.02.2026
+Secure Linux Administration Conference 11.05.2026
 
-Slides: https://urlr.me/zCPcuK
+Slides: https://urlr.me/Q5MSWy

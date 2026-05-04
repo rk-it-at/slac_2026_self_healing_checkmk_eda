@@ -159,15 +159,18 @@ section.footnote-only {
   text-align: left;
 }
 
+/* On image-centric slides, keep the background image unobstructed. */
+section.footnote-only::before,
+section.footnote-only::after {
+  display: none;
+}
+
+section.footnote-only footer {
+  display: none;
+}
+
 section.footnote-only .corner-logos {
-  position: absolute;
-  inset: 0;
-  background:
-    var(--cm-line-bg),
-    url("assets/logo.png") left 0.7cm top 0.35cm / 4.8cm auto no-repeat,
-    url("assets/shape.png") right 0.1cm bottom 0.1cm / var(--cm-shape-size) auto no-repeat;
-  pointer-events: none;
-  z-index: 0;
+  display: none;
 }
 
 section.footnote-only .footnote {
