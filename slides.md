@@ -43,9 +43,9 @@ footer: Secure Linux Administration Conference 05/2026
 - Monitoring: Short introduction
 - Ansible: Short introduction
 - What is Event-Driven Ansible (EDA)?
-- Event-Driven Workflow
 - Live Demonstration
 - Use cases and best practices
+- Q&A
 
 ---
 
