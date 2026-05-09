@@ -99,15 +99,6 @@ footer: Secure Linux Administration Conference 05/2026
 
 ---
 
-# Why Teams Use Checkmk
-
-- ⚙️ **Rule-based configuration** to standardize checks across many systems
-- 🌍 **Distributed monitoring** for remote sites and large environments
-- 🔁 **Faster operations** by reducing MTTR and repetitive manual tasks
-- 🧰 **Automation readiness** with APIs and integrations for incident response workflows
-
----
-
 # Checkmk Models
 
 - ☁️ **Checkmk SaaS (Cloud)**: hosted by Checkmk; fastest onboarding, less platform maintenance
@@ -508,6 +499,7 @@ ipa01.example.com : ok=2 changed=1 unreachable=0 failed=0 skipped=0 rescued=0 ig
 - 🧯 Healing the wrong host (issue caused by a backend dependency)
 - 📚 Lack of knowledge or rulebooks
 - 🕒 Triggering during maintenance windows due to missing downtime
+- 😨 **Fear**
 
 ---
 
