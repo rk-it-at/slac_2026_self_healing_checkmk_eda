@@ -200,15 +200,6 @@ $ ansible-playbook restart_named.yml
 
 ---
 
-<!-- _class: footnote-only -->
-<!-- _backgroundImage: "url('assets/aap_job_run.png')" -->
-<!-- _backgroundSize: contain -->
-<!-- _backgroundPosition: center -->
-
-<div class="corner-logos"></div>
-
----
-
 # Solve DNS issue with Ansible
 
 ```yaml
@@ -227,6 +218,15 @@ $ ansible-playbook restart_named.yml
 
 ...
 ```
+
+---
+
+<!-- _class: footnote-only -->
+<!-- _backgroundImage: "url('assets/aap_job_run.png')" -->
+<!-- _backgroundSize: contain -->
+<!-- _backgroundPosition: center -->
+
+<div class="corner-logos"></div>
 
 ---
 
